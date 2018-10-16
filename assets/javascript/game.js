@@ -21,11 +21,18 @@
 */
 console.log("we are connected!");
 
+var alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
+        'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
+        't', 'u', 'v', 'w', 'x', 'y', 'z'];
+
+
 var word = ["hello", "world", "mistake"];
 // need to change this to a random index pick ** for now this is just a text**
 var randword = 0;
 //empty array for storing the guess
 var wordGuess = [];
+
+var makeGuess = [];
 
 
 //loop for creating the blanks on the screen as the numbers of char in the word
@@ -35,3 +42,19 @@ for (var i = 0; i < word[randword].length; i++) {
         // var x = event.keyCode;
 }
  document.getElementById("underscore").innerText = wordGuess;
+
+//when key is pressed it will show on the HTML page
+ var userChoiceText = document.getElementById("userchoice-text");
+ document.onkeyup = function(event) {
+  var x = event.key;
+  var test_Alpha = document.getElementById("testAlpha");
+	if (alphabet.indexOf(x.toLowerCase()) !== -1){
+
+  
+	  makeGuess.push(x.toLowerCase());
+	  document.getElementById("makeGuess").innerText = makeGuess;
+	  userChoiceText.textContent = "You pressed: " + x.toLowerCase();
+
+	}
+
+}
