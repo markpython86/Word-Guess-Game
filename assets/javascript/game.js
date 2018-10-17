@@ -31,47 +31,62 @@ var word = ["hello", "world", "mistake"];
 var randword = 0;
 //empty array for storing the guess
 var wordGuess = [];
+// var makeGuess = [];
+var guessedLetters = [];  
 
-var makeGuess = [];
 
 
-//loop for creating the blanks on the screen as the numbers of char in the word
-for (var i = 0; i < word[randword].length; i++) {
-        wordGuess.push("_");
-  // wordGuess.replace(",", " ");
-        // var x = event.keyCode;
-}
- document.getElementById("underscore").innerText = wordGuess;
-
-//when key is pressed it will show on the HTML page
- var userChoiceText = document.getElementById("userchoice-text");
- document.onkeyup = function(event) {
-  var x = event.key;
-  var test_Alpha = document.getElementById("testAlpha");
-	if (alphabet.indexOf(x.toLowerCase()) !== -1){
-
-  
-	  makeGuess.push(x.toLowerCase());
-	  document.getElementById("makeGuess").innerText = makeGuess;
-	  userChoiceText.textContent = "You pressed: " + x.toLowerCase();
-    var y = word[randword].indexOf(x.toLowerCase());
-    var Test = document.getElementById("test");
     
-    //check the guessed letter if it is the same as in the word
-    if (word[randword].indexOf(x.toLowerCase()) !== -1) {
-             // guessedLetters.push(letter);
-             // evaluateGuess(letter);
-      //then type on the screen working with adding the letter
-      Test.textContent = "Working" + y;
-      
-      wordGuess.splice(y,1,x.toLowerCase());
-      document.getElementById("underscore").innerText = wordGuess;
-      
-          }else{
-            Test.textContent = "not Working";
-          }
-      } else{
-        test_Alpha.textContent = "if test is not Working";
-	}
+for (var i = 0; i < word[randword].length; i++) {
+  
+        wordGuess.push("_");
+    }
 
-}
+
+function updateDisplay() {
+    document.getElementById("underscore").innerText = "";
+    for (var i = 0; i < wordGuess.length; i++) {
+        document.getElementById("underscore").innerText += wordGuess[i];
+    }
+    document.getElementById("userchoice-text").innerText = guessedLetters;
+};
+
+
+document.onkeydown = function(event) {
+    // If we finished a game, dump one keystroke and reset.
+        // Check to make sure a-z was pressed.
+        if(alphabet.indexOf(event.key.toLowerCase()) !== -1) {
+            makeGuess(event.key.toLowerCase());
+          console.log("working")
+        }
+};
+
+function makeGuess(letter) {;
+   
+        // Make sure we didn't use this letter yet
+        if (guessedLetters.indexOf(letter) === -1) {
+            guessedLetters.push(letter);
+            checkGuess(letter);
+        }
+    
+    updateDisplay();
+};
+
+// This function takes a letter and finds all instances of 
+// appearance in the string and replaces them in the guess word.
+function checkGuess(letter) {
+    // Array to store positions of letters in string
+    var positions = [];
+
+    // Loop through word finding all instances of guessed letter, store the indicies in an array.
+    for (var i = 0; i < word[randword].length; i++) {
+        if(word[randword][i] === letter) {
+            positions.push(i);
+        }
+    }
+        // Loop through all the indicies and replace the '_' with a letter.
+        for(var i = 0; i < positions.length; i++) {
+            wordGuess[positions[i]] = letter;
+        }
+    
+};
