@@ -34,6 +34,8 @@ var wordGuess = [];
 // var makeGuess = [];
 var guessedLetters = [];  
 
+var lives = 10; 
+
 
 
     
@@ -57,7 +59,6 @@ document.onkeydown = function(event) {
         // Check to make sure a-z was pressed.
         if(alphabet.indexOf(event.key.toLowerCase()) !== -1) {
             makeGuess(event.key.toLowerCase());
-          console.log("working")
         }
 };
 
@@ -67,7 +68,7 @@ function makeGuess(letter) {;
         if (guessedLetters.indexOf(letter) === -1) {
             guessedLetters.push(letter);
             checkGuess(letter);
-        }
+        } 
     
     updateDisplay();
 };
@@ -82,11 +83,26 @@ function checkGuess(letter) {
     for (var i = 0; i < word[randword].length; i++) {
         if(word[randword][i] === letter) {
             positions.push(i);
-        }
+        } 
     }
+    if (positions.length <= 0) {
+        lives--;
+        console.log("loses" + lives);
+        
+    } else {
         // Loop through all the indicies and replace the '_' with a letter.
         for(var i = 0; i < positions.length; i++) {
             wordGuess[positions[i]] = letter;
+
         }
+    }
+
+    if (lives <= 0){
+        console.log("losses worked" + lives)
+    }
     
 };
+
+function checkLose(){
+    
+}
