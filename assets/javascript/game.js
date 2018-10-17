@@ -54,7 +54,24 @@ for (var i = 0; i < word[randword].length; i++) {
 	  makeGuess.push(x.toLowerCase());
 	  document.getElementById("makeGuess").innerText = makeGuess;
 	  userChoiceText.textContent = "You pressed: " + x.toLowerCase();
-
+    var y = word[randword].indexOf(x.toLowerCase());
+    var Test = document.getElementById("test");
+    
+    //check the guessed letter if it is the same as in the word
+    if (word[randword].indexOf(x.toLowerCase()) !== -1) {
+             // guessedLetters.push(letter);
+             // evaluateGuess(letter);
+      //then type on the screen working with adding the letter
+      Test.textContent = "Working" + y;
+      
+      wordGuess.splice(y,1,x.toLowerCase());
+      document.getElementById("underscore").innerText = wordGuess;
+      
+          }else{
+            Test.textContent = "not Working";
+          }
+      } else{
+        test_Alpha.textContent = "if test is not Working";
 	}
 
 }
