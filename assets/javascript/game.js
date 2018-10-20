@@ -18,13 +18,25 @@ var guessesLeft = 0;       // How many tries the player has left
 var gameOver = false;        // Flag for 'press any key to try again'     
 var wins = 0;                   // How many wins has the player racked up
 
-var metallica = new Audio('./assets/audio/metallica.wav');
-var aerosmith = new Audio('./assets/audio/aerosmith.wav');
-var megadeth = new Audio('./assets/audio/megadeth.wav');
-var nirvana = new Audio('./assets/audio/nirvana.wav');
-var queen = new Audio('./assets/audio/queen.wav');
-var eagles = new Audio('./assets/audio/eagles.wav');
-var sting = new Audio('./assets/audio/sting.wav');
+
+
+// songs for the right answer
+var METALLICA = new Audio('./assets/audio/metallica.mp3');
+var AEROSMITH = new Audio('./assets/audio/aerosmith.mp3');
+var MEGADETH = new Audio("./assets/audio/megadeth.mp3");
+var NIRVANA = new Audio('./assets/audio/nirvana.mp3');
+var QUEEN = new Audio('./assets/audio/queen.mp3');
+var EAGLES = new Audio('./assets/audio/eagles.mp3');
+var STING = new Audio('./assets/audio/sting.mp3');
+
+
+//sound effect when guess right or wrong
+var goodSound = new Audio("https://s3-us-west-2.amazonaws.com/s.cdpn.io/74196/goodbell.mp3");
+var badSound = new Audio("https://s3-us-west-2.amazonaws.com/s.cdpn.io/74196/bad.mp3");
+
+// setting the volume to very low cause its anoying yet cool :)
+badSound.volume = 0.1;
+goodSound.volume = 0.1;
 
 // Reset our game-level variables
 function gameReset() {
@@ -53,6 +65,16 @@ function gameReset() {
 
     // Show display
     updateDisplay();
+
+    //Stop sound when new game starts
+    METALLICA.pause();
+    MEGADETH.pause();
+    AEROSMITH.pause();
+    STING.pause();
+    QUEEN.pause();
+    EAGLES.pause();
+    NIRVANA.pause();
+
 };
 
 //  Updates the display on the HTML Page
@@ -90,16 +112,19 @@ function checkGuess(letter) {
         if(word[randWord][i] === letter) {
             letterPosition.push(i);
         }
+
     }
 
     // if there are no indicies, remove a guess and update the hangman image
     if (letterPosition.length <= 0) {
         guessesLeft--;
         updateHangmanImage();
+        badSound.play();
     } else {
         // Loop through all the indicies and replace the '_' with a letter.
         for(var i = 0; i < letterPosition.length; i++) {
             wordGuess[letterPosition[i]] = letter;
+            
         }
     }
 };
@@ -110,6 +135,7 @@ function checkIfWin() {
         document.getElementById("pressKeyTryAgain").style.cssText= "display: block";
         wins++;
         gameOver = true;
+        singerImage();
     }
 };
 
@@ -118,7 +144,6 @@ function checkIfWin() {
 function checkIfLoss()
 {
     if(guessesLeft <= 0) {
-        loseSound.play();
         document.getElementById("gameover").style.cssText = "display: block";
         document.getElementById("pressKeyTryAgain").style.cssText = "display:block";
         gameOver = true;
@@ -151,7 +176,7 @@ document.onkeydown = function(event) {
             updateDisplay();
             checkIfWin();
             checkIfLoss();
-            singerImage();
+            
         }
     }
 };
@@ -159,5 +184,26 @@ document.onkeydown = function(event) {
 function singerImage(){
     document.getElementById("singer").style.cssText = "display: block";
     document.getElementById("singer").src = "assets/images/" + word[randWord] + ".jpg";
-    megadeth.play();
+
+    if (word[randWord] === "METALLICA"){
+        METALLICA.play();
+    }else if (word[randWord] === "MEGADETH"){
+        MEGADETH.play();
+    }else if (word[randWord] === "AEROSMITH"){
+        AEROSMITH.play();
+    }else if (word[randWord] === "STING"){
+        STING.play();
+    }else if (word[randWord] === "QUEEN"){
+        QUEEN.play();
+    }else if (word[randWord] === "EAGLES"){
+        EAGLES.play();
+    } else{
+        NIRVANA.play();
+    }
+
+
+
 }
+
+
+
