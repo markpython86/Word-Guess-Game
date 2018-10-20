@@ -7,25 +7,43 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="assets/css/style.css">
   <title>Hangman!</title>
+  <script src="assets/javascript/game.js"></script>
+  
+</head>
+<body>
+    <div class="container">
+        <img id="title-image" src="assets/images/hangman-title.png" alt="Hangman Title Image" />
+        <div class="row">
+            <div class="col-md-6 gameplay-column">
+               <img id="singer" src="" alt="" />
+                <h1 id="youWin">You Win!!!!</h1>
+                <h1 id="gameover">Game Over</h1>
+                <br>
+                <h2 id="pressKeyTryAgain">Press Any Key to Try Again!</h2>
+                <img id="hangmanImage" src="" alt="" />
+            </div>
+            <div class="col-md-6 gameplay-column">
+                <h2>Press A-Z to Make a Guess!</h2>
+                <h4>Wins</h4>
+                <h5 id="winTotal"></h5>
+                <h4>Word To Guess</h4>
+                <h3 id="wordGuess"></h3>
+                <h4>Guesses Remaining</h4>
+                <h6 id="guessesLeft"></h6>
+                <h4>Letters Guessed</h4>
+                <h3 id="guessedLetters"></h3>
+            </div>
+        </div>
+    </div>
+<script>
+        gameReset();
+        updateDisplay();
+</script>
+	
+
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-</head>
-<body>
-
-	<div class="container">
-	
-
-	<h1>Welcome to the game</h1>
-	<h3 id="underscore"></h3>
-  <h3 id="win"></h3>
-	<h3 id="userchoice-text"></h3>
-	<h3 id="makeGuess"></h3>
-  <h3 id="test"></h3>
-	<h3 id="testAlpha"></h3>
-
-</div>
-	<script src="assets/javascript/game.js"></script>
 
 </body>
 </html>

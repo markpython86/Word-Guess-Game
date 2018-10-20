@@ -1,132 +1,163 @@
-/*LogicChoose a theme for your game! In the demo, we picked an 80s theme: 80s questions, 80s sound and an 80s aesthetic. You can choose any subject for your theme, though, so be creative!
+var word =           // Word list
+    [
+        "STING",
+        "AEROSMITH",
+        "MEGADETH",
+        "NIRVANA",
+        "QUEEN",
+        "METALLICA",
+        "EAGLES"
+    ];
 
-*Use key events to listen for the letters that your players will type.
+const lives = 10;            // Maximum number of tries player has
 
-*Display the following on the page:
+var guessedLetters = [];        // Stores the letters the user guessed
+var randWord;           // Index of the current word in the array
+var wordGuess = [];          // This will be the word we actually build to match the current word
+var guessesLeft = 0;       // How many tries the player has left
+var gameOver = false;        // Flag for 'press any key to try again'     
+var wins = 0;                   // How many wins has the player racked up
 
-*Press any key to get started!
+var metallica = new Audio('./assets/audio/metallica.wav');
+var aerosmith = new Audio('./assets/audio/aerosmith.wav');
+var megadeth = new Audio('./assets/audio/megadeth.wav');
+var nirvana = new Audio('./assets/audio/nirvana.wav');
+var queen = new Audio('./assets/audio/queen.wav');
+var eagles = new Audio('./assets/audio/eagles.wav');
+var sting = new Audio('./assets/audio/sting.wav');
 
-*Wins: (# of times user guessed the word correctly).
-
-*If the word is madonna, display it like this when the game starts: _ _ _ _ _ _ _.
-
-*As the user guesses the correct letters, reveal them: m a d o _ _ a.
-
-*Number of Guesses Remaining: (# of guesses remaining for the user).
-
-*Letters Already Guessed: (Letters the user has guessed, displayed like L Z Y H).
-
-*After the user wins/loses the game should automatically choose another word and make the user play it.
-
-*/
-
-console.log("we are connected!");
-
-var alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
-        'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
-        't', 'u', 'v', 'w', 'x', 'y', 'z'];
-
-
-var word = ["hello", "world", "mistake"];
-// need to change this to a random index pick ** for now this is just a text**
-var randword = 0;
-//empty array for storing the guess
-var wordGuess = [];
-// var makeGuess = [];
-var guessedLetters = [];  
-
-var guessesLeft = 0;
-
-var lives = 10; 
-
-
-
-    
-
-
-function gameReset(){
+// Reset our game-level variables
+function gameReset() {
     guessesLeft = lives;
 
-    randword = Math.floor(Math.random()*(word.length));
-    guessedLetters = [];
+    // Use Math.floor to round the random number down to the nearest whole.
+    randWord = Math.floor(Math.random() * (word.length));
 
+    // Clear out arrays
+    guessedLetters = [];
     wordGuess = [];
 
-    for (var i = 0; i < word[randword].length; i++) {
-  
+    // Make sure the hangman image is cleared
+    document.getElementById("hangmanImage").src = "";
+    document.getElementById("singer").src = "";
+
+    // Build the guessing word and clear it out
+    for (var i = 0; i < word[randWord].length; i++) {
         wordGuess.push("_");
-    }
+    }   
 
+    // Hide game over and win images/text
+    document.getElementById("pressKeyTryAgain").style.cssText= "display: none";
+    document.getElementById("gameover").style.cssText = "display: none";
+    document.getElementById("youWin").style.cssText = "display: none";
+
+    // Show display
     updateDisplay();
+};
 
-
-}
-
-
+//  Updates the display on the HTML Page
 function updateDisplay() {
 
+    document.getElementById("winTotal").innerText = wins;
+
+    // Display how much of the word we've already guessed on screen.
+    // Printing the array would add commas (,) - so we concatenate a string from each value in the array.
     var wordGuessString = "";
-    for (var i=0; i< wordGuess.length;i++){
+    for (var i = 0; i < wordGuess.length; i++) {
         wordGuessString += wordGuess[i];
     }
-    document.getElementById("underscore").innerText = wordGuessString;
-    document.getElementById("userchoice-text").innerText = guessedLetters;
+
+    //
+    document.getElementById("wordGuess").innerText = wordGuessString;
+    document.getElementById("guessesLeft").innerText = guessesLeft;
+    document.getElementById("guessedLetters").innerText = guessedLetters;
 };
 
 
-document.onkeydown = function(event) {
-    // If we finished a game, dump one keystroke and reset.
-        // Check to make sure a-z was pressed.
-        if(alphabet.indexOf(event.key.toLowerCase()) !== -1) {
-            makeGuess(event.key.toLowerCase());
-        }
-};
-
-function makeGuess(letter) {;
-   
-        // Make sure we didn't use this letter yet
-        if (guessedLetters.indexOf(letter) === -1) {
-            guessedLetters.push(letter);
-            checkGuess(letter);
-        } 
-    
-    updateDisplay();
+// Updates the image depending on how many guesses
+function updateHangmanImage() {
+    document.getElementById("hangmanImage").src = "assets/images/" + (lives - guessesLeft) + ".png";
 };
 
 // This function takes a letter and finds all instances of 
 // appearance in the string and replaces them in the guess word.
 function checkGuess(letter) {
-    // Array to store positions of letters in string
-    var positions = [];
+    // Array to store letterPosition of letters in string
+    var letterPosition = [];
 
     // Loop through word finding all instances of guessed letter, store the indicies in an array.
-    for (var i = 0; i < word[randword].length; i++) {
-        if(word[randword][i] === letter) {
-            positions.push(i);
-        } 
-    }
-    if (positions.length <= 0) {
-        lives--;
-        console.log("loses" + lives);
-        
-    } else {
-        // Loop through all the indicies and replace the '_' with a letter.
-        for(var i = 0; i < positions.length; i++) {
-            wordGuess[positions[i]] = letter;
-
+    for (var i = 0; i < word[randWord].length; i++) {
+        if(word[randWord][i] === letter) {
+            letterPosition.push(i);
         }
     }
 
-    
+    // if there are no indicies, remove a guess and update the hangman image
+    if (letterPosition.length <= 0) {
+        guessesLeft--;
+        updateHangmanImage();
+    } else {
+        // Loop through all the indicies and replace the '_' with a letter.
+        for(var i = 0; i < letterPosition.length; i++) {
+            wordGuess[letterPosition[i]] = letter;
+        }
+    }
+};
+// Checks for a win by seeing if there are any remaining underscores in the wordGuess we are building.
+function checkIfWin() {
+    if(wordGuess.indexOf("_") === -1) {
+        document.getElementById("youWin").style.cssText = "display: block";
+        document.getElementById("pressKeyTryAgain").style.cssText= "display: block";
+        wins++;
+        gameOver = true;
+    }
+};
+
+
+// Checks for a loss
+function checkIfLoss()
+{
+    if(guessesLeft <= 0) {
+        loseSound.play();
+        document.getElementById("gameover").style.cssText = "display: block";
+        document.getElementById("pressKeyTryAgain").style.cssText = "display:block";
+        gameOver = true;
+    }
+}
+
+// Makes a guess
+function makeGuess(letter) {
+    if (guessesLeft > 0) {
+        // Make sure we didn't use this letter yet
+        if (guessedLetters.indexOf(letter) === -1) {
+            guessedLetters.push(letter);
+            checkGuess(letter);
+        }
+    }
     
 };
 
-function checkLose(){
 
-    if (lives <= 0){
-
-
-        console.log("losses worked" + lives)
+// Event listener
+document.onkeydown = function(event) {
+    // If we finished a game, dump one keystroke and reset.
+    if(gameOver) {
+        gameReset();
+        gameOver = false;
+    } else {
+        // Check to make sure a-z was pressed.
+        if(event.keyCode >= 65 && event.keyCode <= 90) {
+            makeGuess(event.key.toUpperCase());
+            updateDisplay();
+            checkIfWin();
+            checkIfLoss();
+            singerImage();
+        }
     }
-    
+};
+
+function singerImage(){
+    document.getElementById("singer").style.cssText = "display: block";
+    document.getElementById("singer").src = "assets/images/" + word[randWord] + ".jpg";
+    megadeth.play();
 }
