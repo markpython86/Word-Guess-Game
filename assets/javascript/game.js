@@ -19,6 +19,7 @@
 *After the user wins/loses the game should automatically choose another word and make the user play it.
 
 */
+
 console.log("we are connected!");
 
 var alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
@@ -34,22 +35,41 @@ var wordGuess = [];
 // var makeGuess = [];
 var guessedLetters = [];  
 
+var guessesLeft = 0;
+
 var lives = 10; 
 
 
 
     
-for (var i = 0; i < word[randword].length; i++) {
+
+
+function gameReset(){
+    guessesLeft = lives;
+
+    randword = Math.floor(Math.random()*(word.length));
+    guessedLetters = [];
+
+    wordGuess = [];
+
+    for (var i = 0; i < word[randword].length; i++) {
   
         wordGuess.push("_");
     }
 
+    updateDisplay();
+
+
+}
+
 
 function updateDisplay() {
-    document.getElementById("underscore").innerText = "";
-    for (var i = 0; i < wordGuess.length; i++) {
-        document.getElementById("underscore").innerText += wordGuess[i];
+
+    var wordGuessString = "";
+    for (var i=0; i< wordGuess.length;i++){
+        wordGuessString += wordGuess[i];
     }
+    document.getElementById("underscore").innerText = wordGuessString;
     document.getElementById("userchoice-text").innerText = guessedLetters;
 };
 
@@ -97,12 +117,16 @@ function checkGuess(letter) {
         }
     }
 
-    if (lives <= 0){
-        console.log("losses worked" + lives)
-    }
+    
     
 };
 
 function checkLose(){
+
+    if (lives <= 0){
+
+
+        console.log("losses worked" + lives)
+    }
     
 }
