@@ -1,12 +1,12 @@
-var word =           // Word list
+var word =          // Word list
     [
-        "STING",
-        "AEROSMITH",
-        "MEGADETH",
-        "NIRVANA",
-        "QUEEN",
         "METALLICA",
-        "EAGLES"
+        "NIRVANA",
+        "AEROSMITH",
+        "QUEEN",
+        "EAGLES",
+        "STING",
+        "MEGADETH"
     ];
 
 const lives = 10;            // Maximum number of tries player has
@@ -18,7 +18,7 @@ var guessesLeft = 0;       // How many tries the player has left
 var gameOver = false;        // Flag for 'press any key to try again'     
 var wins = 0;                   // How many wins has the player racked up
 
-
+var sound;
 
 // songs for the right answer
 var METALLICA = new Audio('./assets/audio/metallica.mp3');
@@ -37,6 +37,8 @@ var badSound = new Audio("https://s3-us-west-2.amazonaws.com/s.cdpn.io/74196/bad
 // setting the volume to very low cause its anoying yet cool :)
 badSound.volume = 0.1;
 goodSound.volume = 0.1;
+
+
 
 // Reset our game-level variables
 function gameReset() {
@@ -62,18 +64,20 @@ function gameReset() {
     document.getElementById("pressKeyTryAgain").style.cssText= "display: none";
     document.getElementById("gameover").style.cssText = "display: none";
     document.getElementById("youWin").style.cssText = "display: none";
+    document.getElementById("hint1").style.cssText = "display: none";
+    document.getElementById("hint2").style.cssText = "display: none";
+    document.getElementById("hint3").style.cssText = "display: none";
+    document.getElementById("hint4").style.cssText = "display: none";
+    document.getElementById("hint5").style.cssText = "display: none";
+    document.getElementById("hint6").style.cssText = "display: none";
+    document.getElementById("hint7").style.cssText = "display: none";
+    
 
     // Show display
     updateDisplay();
 
     //Stop sound when new game starts
-    METALLICA.pause();
-    MEGADETH.pause();
-    AEROSMITH.pause();
-    STING.pause();
-    QUEEN.pause();
-    EAGLES.pause();
-    NIRVANA.pause();
+    sound.pause();
 
 };
 
@@ -164,6 +168,8 @@ function makeGuess(letter) {
 
 // Event listener
 document.onkeydown = function(event) {
+    var url ='./assets/audio/'+ word[randWord]+'.mp3';
+    var a = new Audio(url);
     // If we finished a game, dump one keystroke and reset.
     if(gameOver) {
         gameReset();
@@ -186,22 +192,24 @@ function singerImage(){
     document.getElementById("singer").style.cssText = "display: block";
     document.getElementById("singer").src = "assets/images/" + word[randWord] + ".jpg";
 
-    if (word[randWord] === "METALLICA"){
-        METALLICA.play();
-    }else if (word[randWord] === "MEGADETH"){
-        MEGADETH.play();
-    }else if (word[randWord] === "AEROSMITH"){
-        AEROSMITH.play();
-    }else if (word[randWord] === "STING"){
-        STING.play();
-    }else if (word[randWord] === "QUEEN"){
-        QUEEN.play();
-    }else if (word[randWord] === "EAGLES"){
-        EAGLES.play();
-    } else{
-        NIRVANA.play();
-    }
+    // update the sound input and assign it to a variable
+    var url ='./assets/audio/'+ word[randWord]+'.mp3';
+    var newSound = new Audio(url);
+    sound = newSound;
+    sound.play();
+    
 }
+
+
+//function to give hind when pressing the button
+function hint(){
+    var ID = randWord+1;
+    var newID = "hint" + ID;
+    document.getElementById(newID).style.cssText = "display: block";
+}
+
+
+
 
 
 
