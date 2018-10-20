@@ -34,7 +34,16 @@ h4{
 
 #pressKeyTryAgain, 
 #gameover, 
-#youWin { display: none;}
+#youWin,
+#hint1,
+#hint2,
+#hint3,
+#hint4,
+#hint5,
+#hint6,
+#hint7{ 
+    display: none;
+}
 .gameplay-column {
     padding-top: 20px;
     border: 3px solid #fff;

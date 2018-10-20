@@ -119,7 +119,6 @@ function checkGuess(letter) {
     if (letterPosition.length <= 0) {
         guessesLeft--;
         updateHangmanImage();
-        badSound.play();
     } else {
         // Loop through all the indicies and replace the '_' with a letter.
         for(var i = 0; i < letterPosition.length; i++) {
@@ -181,6 +180,8 @@ document.onkeydown = function(event) {
     }
 };
 
+
+// when win add the band image and sound
 function singerImage(){
     document.getElementById("singer").style.cssText = "display: block";
     document.getElementById("singer").src = "assets/images/" + word[randWord] + ".jpg";
@@ -200,10 +201,12 @@ function singerImage(){
     } else{
         NIRVANA.play();
     }
-
-
-
 }
+
+
+
+
+
 
 
 
