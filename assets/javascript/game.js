@@ -194,7 +194,7 @@ document.onkeydown = function(event) {
 // when win add the band image and sound
 function singerImage(){
     document.getElementById("singer").style.cssText = "display: block";
-    document.getElementById("singer").src = "assets/images/" + word[randWord] + ".jpg";
+    document.getElementById("singer").src = "assets/images/" + word[randWord].toLowerCase() + ".jpg";
     var sound = document.getElementById('myAudio');
     var link ='./assets/audio/'+ word[randWord].toLowerCase() +'.mp3';
     console.log("'"+link+"'");
