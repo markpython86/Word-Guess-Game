@@ -1,3 +1,5 @@
+$(document).ready(function() {
+    
 var word =          // Word list
     [
         "METALLICA",
@@ -30,15 +32,13 @@ var EAGLES = new Audio('./assets/audio/eagles.mp3');
 var STING = new Audio('./assets/audio/sting.mp3');
 
 
-//sound effect when guess right or wrong
-var goodSound = new Audio("https://s3-us-west-2.amazonaws.com/s.cdpn.io/74196/goodbell.mp3");
-var badSound = new Audio("https://s3-us-west-2.amazonaws.com/s.cdpn.io/74196/bad.mp3");
 
-// setting the volume to very low cause its anoying yet cool :)
-badSound.volume = 0.1;
-goodSound.volume = 0.1;
-
-
+document.getElementById("hint").addEventListener("click", function(){
+    console.log(randWord);
+    var ID = randWord+1;
+    var newID = "hint" + ID;
+    document.getElementById(newID).style.cssText = "display: block";
+});
 
 // Reset our game-level variables
 function gameReset() {
@@ -71,19 +71,27 @@ function gameReset() {
     document.getElementById("hint5").style.cssText = "display: none";
     document.getElementById("hint6").style.cssText = "display: none";
     document.getElementById("hint7").style.cssText = "display: none";
+    // sound = '';
     
 
     // Show display
     updateDisplay();
+    
+    
 
     //Stop sound when new game starts
-    sound.pause();
+    function pauseSong(){
+        var sound = document.getElementById('myAudio');
+        sound.src = "";
+        
+    }
+    pauseSong();
+    
 
 };
 
 //  Updates the display on the HTML Page
 function updateDisplay() {
-
     document.getElementById("winTotal").innerText = wins;
 
     // Display how much of the word we've already guessed on screen.
@@ -92,8 +100,6 @@ function updateDisplay() {
     for (var i = 0; i < wordGuess.length; i++) {
         wordGuessString += wordGuess[i];
     }
-
-    //
     document.getElementById("wordGuess").innerText = wordGuessString;
     document.getElementById("guessesLeft").innerText = guessesLeft;
     document.getElementById("guessedLetters").innerText = guessedLetters;
@@ -168,8 +174,6 @@ function makeGuess(letter) {
 
 // Event listener
 document.onkeydown = function(event) {
-    var url ='./assets/audio/'+ word[randWord]+'.mp3';
-    var a = new Audio(url);
     // If we finished a game, dump one keystroke and reset.
     if(gameOver) {
         gameReset();
@@ -191,22 +195,21 @@ document.onkeydown = function(event) {
 function singerImage(){
     document.getElementById("singer").style.cssText = "display: block";
     document.getElementById("singer").src = "assets/images/" + word[randWord] + ".jpg";
-
-    // update the sound input and assign it to a variable
-    var url ='./assets/audio/'+ word[randWord]+'.mp3';
-    var newSound = new Audio(url);
-    sound = newSound;
+    var sound = document.getElementById('myAudio');
+    var link ='./assets/audio/'+ word[randWord].toLowerCase() +'.mp3';
+    console.log("'"+link+"'");
+    sound.src = link;
     sound.play();
-    
 }
 
 
-//function to give hind when pressing the button
-function hint(){
-    var ID = randWord+1;
-    var newID = "hint" + ID;
-    document.getElementById(newID).style.cssText = "display: block";
-}
+
+
+gameReset();
+updateDisplay();
+
+
+}); //End of document ready
 
 
 
